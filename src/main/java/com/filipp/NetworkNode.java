@@ -1,5 +1,7 @@
 package com.filipp;
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
@@ -7,21 +9,22 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.function.Consumer;
 
-public abstract class NetworkConnection {
+@Slf4j
+public abstract class NetworkNode {
     private ConnectionThread connectionThread = new ConnectionThread();
     private Consumer<Serializable> onRecieveCallback;
 
-    public NetworkConnection(Consumer<Serializable> onRecieveCallback) {
+    NetworkNode(Consumer<Serializable> onRecieveCallback) {
         this.onRecieveCallback = onRecieveCallback;
         connectionThread.setDaemon(true);
     }
 
 
-    public void startConnection() throws Exception {
+    void startConnection() {
         connectionThread.start();
     }
 
-    public void send(Serializable data) throws Exception {
+    void send(Serializable data) throws Exception {
         connectionThread.out.writeObject(data);
     }
 
@@ -57,8 +60,8 @@ public abstract class NetworkConnection {
 
 
             } catch (Exception ex) {
+                log.error("Error while running Server or Client", ex);
                 onRecieveCallback.accept("Connection closed");
-
             }
         }
     }

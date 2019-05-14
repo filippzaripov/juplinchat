@@ -7,6 +7,10 @@
     <groupId>com.filipp</groupId>
     <artifactId>juplin-test</artifactId>
     <version>1.0-SNAPSHOT</version>
+    <properties>
+        <logging.slf4j.version>1.7.25</logging.slf4j.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
     <build>
         <plugins>
             <plugin>
@@ -19,11 +23,24 @@
             </plugin>
         </plugins>
     </build>
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compliler.source>1.8</maven.compliler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
-    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <version>${logging.slf4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jetbrains</groupId>
+            <artifactId>annotations</artifactId>
+            <version>13.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.2</version>
+        </dependency>
+    </dependencies>
 
 
 </project>

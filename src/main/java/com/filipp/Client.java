@@ -3,7 +3,7 @@ package com.filipp;
 import java.io.Serializable;
 import java.util.function.Consumer;
 
-public class Client extends NetworkConnection {
+public class Client extends NetworkNode {
 
     private String ip;
     private int port;

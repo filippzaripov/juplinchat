@@ -8,12 +8,14 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class Chat extends Application {
 
-    private boolean isServer = true;
+    private boolean isServer = false;
     private final TextArea messages = new TextArea();
-    private NetworkConnection connection = isServer ? createServer() : createClient();
+    private NetworkNode connection = isServer ? createServer() : createClient();
 
     private Parent createContent() {
         messages.setPrefHeight(550);
@@ -27,7 +29,7 @@ public class Chat extends Application {
                 connection.send(message);
             } catch (Exception e) {
                 messages.appendText("Failed to send : " + message + "\n");
-                e.printStackTrace();
+                log.error("Failed to send : " + message, e);
             }
         });
 
@@ -42,7 +44,11 @@ public class Chat extends Application {
     }
 
     public void stop() {
-
+        try {
+            connection.closeConnection();
+        } catch (Exception e) {
+            log.error("Error while closing connection", e);
+        }
     }
 
     @Override
@@ -51,19 +57,15 @@ public class Chat extends Application {
     }
 
     private Server createServer() {
-        return new Server(55555, data -> {
-            Platform.runLater(() -> {
-                messages.appendText(data.toString() + "\n");
-            });
-        });
+        return new Server(55555, data -> Platform.runLater(() -> {
+            messages.appendText(data.toString() + "\n");
+        }));
     }
 
     private Client createClient() {
-        return new Client("127 0.0.1", 55555, data -> {
-            Platform.runLater(() -> {
-                messages.appendText(data.toString() + "\n");
-            });
-        });
+        return new Client("127.0.0.1", 55555, data -> Platform.runLater(() -> {
+            messages.appendText(data.toString() + "\n");
+        }));
     }
 
     public static void main(String[] args) {
