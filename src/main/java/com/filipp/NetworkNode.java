@@ -28,7 +28,8 @@ public abstract class NetworkNode {
         connectionThread.out.writeObject(data);
     }
 
-    public void closeConnection() throws Exception {
+
+    void closeConnection() throws Exception {
         connectionThread.socket.close();
     }
 

@@ -1,8 +1,11 @@
 package com.filipp;
 
+import lombok.Getter;
+
 import java.io.Serializable;
 import java.util.function.Consumer;
 
+@Getter
 public class Server extends NetworkNode {
 
     private int port;
@@ -22,8 +25,4 @@ public class Server extends NetworkNode {
         return null;
     }
 
-    @Override
-    protected int getPort() {
-        return port;
-    }
 }

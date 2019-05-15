@@ -1,14 +1,17 @@
 package com.filipp;
 
+import lombok.Getter;
+
 import java.io.Serializable;
 import java.util.function.Consumer;
 
+@Getter
 public class Client extends NetworkNode {
 
     private String ip;
     private int port;
 
-    public Client(String ip, int port, Consumer<Serializable> onRecieveCallback) {
+    Client(String ip, int port, Consumer<Serializable> onRecieveCallback) {
         super(onRecieveCallback);
         this.ip = ip;
         this.port = port;
@@ -19,13 +22,4 @@ public class Client extends NetworkNode {
         return false;
     }
 
-    @Override
-    protected String getIp() {
-        return ip;
-    }
-
-    @Override
-    protected int getPort() {
-        return port;
-    }
 }
